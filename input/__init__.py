@@ -23,31 +23,33 @@ def send_enter():
 
 
 def move(direction: DIRECTION, action: ABILITY = ABILITY.NONE):
+    direction = DIRECTION(direction)
+    reset_keys()
     action = ActionChains(browser)
-    if direction is DIRECTION.N:
+    if direction == DIRECTION.N:
         action.key_down("w")
-    if direction is DIRECTION.NE:
+    if direction == DIRECTION.NE:
         action.key_down("w")
         action.key_down("d")
-    if direction is DIRECTION.E:
+    if direction == DIRECTION.E:
         action.key_down("d")
-    if direction is DIRECTION.SE:
+    if direction == DIRECTION.SE:
         action.key_down("s")
         action.key_down("d")
-    if direction is DIRECTION.S:
+    if direction == DIRECTION.S:
         action.key_down("s")
-    if direction is DIRECTION.SW:
+    if direction == DIRECTION.SW:
         action.key_down("s")
         action.key_down("a")
-    if direction is DIRECTION.W:
+    if direction == DIRECTION.W:
         action.key_down("a")
-    if direction is DIRECTION.NW:
+    if direction == DIRECTION.NW:
         action.key_down("a")
         action.key_down("w")
 
-    if action is ABILITY.HEAL:
+    if action == ABILITY.HEAL:
         action.key_down(Keys.LEFT_SHIFT)
-    if action is ABILITY.RUN:
+    if action == ABILITY.RUN:
         action.key_down(Keys.SPACE)
 
     action.perform()
