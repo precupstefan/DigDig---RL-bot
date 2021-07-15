@@ -3,7 +3,7 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.env_checker import check_env
 
 from custom_gym import DigDigEnv
-from web_driver import browser, take_screenshot
+from web_driver import browser, take_screenshot_and_text
 import gym
 
 

@@ -15,13 +15,14 @@ browser.execute_script(f"localStorage.setItem('digdig_nickname', '{config['usern
 browser.execute_script("localStorage.setItem('digdig_keyboard_control', 'Y');")
 
 
-def take_screenshot():
+def take_screenshot_and_text():
+    text = ""
     st = browser.get_screenshot_as_png()
     file_jpgdata = BytesIO(st)
-    # dt = Image.open(file_jpgdata).convert("1")
-    # print(pytesseract.image_to_string(dt))
-    # file_jpgdata = BytesIO(st)
+    dt = Image.open(file_jpgdata)
+    text = pytesseract.image_to_string(dt)
+    file_jpgdata = BytesIO(st)
     img = plt.imread(file_jpgdata)
     R, G, B = img[:, :, 0], img[:, :, 1], img[:, :, 2]
     imgGray = 0.2989 * R + 0.5870 * G + 0.1140 * B
-    return imgGray
+    return imgGray, text

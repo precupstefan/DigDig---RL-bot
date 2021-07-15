@@ -6,7 +6,7 @@ from gym import spaces
 from pytesseract import pytesseract
 
 from input import actions, send_enter, move
-from web_driver import take_screenshot
+from web_driver import take_screenshot_and_text
 import matplotlib.pyplot as plt
 
 
@@ -36,16 +36,21 @@ class DigDigEnv(gym.Env):
         # The observation will be the coordinate of the agent
         # this can be described both by Discrete and Box space
         # TODO Calculate actual image size
-        self.observation_space = spaces.Box(low=0, high=1, shape=(588*1264,), dtype="float32")
+        self.observation_space = spaces.Box(low=0, high=1, shape=(588 * 1264,), dtype="float32")
 
     def reset(self):
         """
         Important: the observation must be a numpy array
         :return: (np.array)
         """
+        if hasattr(self, "start_time"):
+            print("RESET" + f" lasted : {time.time() - self.start_time}")
+        else:
+            print("Spinning up")
         send_enter()
+        time.sleep(1)
         send_enter()
-        self.obs = take_screenshot()
+        self.obs, _ = take_screenshot_and_text()
         self.start_time = time.time()
         return self.obs.flatten()
 
@@ -59,15 +64,13 @@ class DigDigEnv(gym.Env):
 
         move(action)
 
-        self.obs = take_screenshot()
+        self.obs, text = take_screenshot_and_text()
 
         # Account for the boundaries of the grid
         # self.agent_pos = np.clip(self.agent_pos, 0, self.grid_size)
 
         # Are we at the left of the grid?
-        img = Image.fromarray(self.obs).convert("L")
-        done = pytesseract.image_to_string(img)
-        print(done)
+        done = text.__contains__("You were destroyed by:") or text.__contains__("press enter to continue")
         # Null reward everywhere except when reaching the goal (left of the grid)
         reward = time.time() - self.start_time
 
