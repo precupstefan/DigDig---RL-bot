@@ -32,7 +32,7 @@ class DigDigEnv(gym.Env):
         # Define action and observation space
         # They must be custom_gym.spaces objects
         # Example when using discrete actions, we have two: left and right
-        self.action_space = spaces.Discrete(actions.DIRECTION.__len__())
+        self.action_space = spaces.Discrete(actions.DIRECTION.__len__() * actions.ABILITY.__len__())
         # The observation will be the coordinate of the agent
         # this can be described both by Discrete and Box space
         # TODO Calculate actual image size

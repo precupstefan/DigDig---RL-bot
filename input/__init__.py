@@ -22,8 +22,9 @@ def send_enter():
     action.perform()
 
 
-def move(direction: DIRECTION, action: ABILITY = ABILITY.NONE):
-    direction = DIRECTION(direction)
+def move(action: int):
+    direction = DIRECTION(int(action / actions.ABILITY.__len__()))
+    ability = ABILITY(int(action % actions.ABILITY.__len__()))
     reset_keys()
     action = ActionChains(browser)
     if direction == DIRECTION.N:
@@ -47,9 +48,9 @@ def move(direction: DIRECTION, action: ABILITY = ABILITY.NONE):
         action.key_down("a")
         action.key_down("w")
 
-    if action == ABILITY.HEAL:
+    if ability == ABILITY.HEAL:
         action.key_down(Keys.LEFT_SHIFT)
-    if action == ABILITY.RUN:
+    if ability == ABILITY.RUN:
         action.key_down(Keys.SPACE)
 
     action.perform()
