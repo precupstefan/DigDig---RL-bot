@@ -1,4 +1,5 @@
-username: BOT123
+username: BOT - Learning
 window_size:
   width: 1280
   height: 720
+model: PPO-dig
