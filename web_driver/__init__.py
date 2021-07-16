@@ -1,3 +1,4 @@
+import time
 from io import BytesIO
 
 from PIL import Image
@@ -7,12 +8,15 @@ import os
 from config import config
 import matplotlib.pyplot as plt
 
-_driver_path = os.path.join(os.getcwd(), 'web_driver', 'chromedriver.exe')
-browser = webdriver.Chrome(executable_path=_driver_path)
-browser.set_window_size(config["window_size"]["width"], config["window_size"]["height"])
-browser.get('https://digdig.io/')
-browser.execute_script(f"localStorage.setItem('digdig_nickname', '{config['username']}');")
-browser.execute_script("localStorage.setItem('digdig_keyboard_control', 'Y');")
+
+def reload():
+    browser.get('https://digdig.io/')
+    try:
+        alert = browser.switch_to_alert()
+        alert.accept()
+    except:
+        print("No Alert")
+    time.sleep(3)
 
 
 def take_screenshot_and_text():
@@ -26,3 +30,12 @@ def take_screenshot_and_text():
     R, G, B = img[:, :, 0], img[:, :, 1], img[:, :, 2]
     imgGray = 0.2989 * R + 0.5870 * G + 0.1140 * B
     return imgGray, text
+
+_driver_path = os.path.join(os.getcwd(), 'web_driver', 'chromedriver.exe')
+browser = webdriver.Chrome(executable_path=_driver_path)
+browser.set_window_size(config["window_size"]["width"], config["window_size"]["height"])
+browser.get('https://digdig.io/')
+browser.execute_script(f"localStorage.setItem('digdig_nickname', '{config['username']}');")
+browser.execute_script("localStorage.setItem('digdig_keyboard_control', 'Y');")
+
+

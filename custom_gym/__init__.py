@@ -70,7 +70,8 @@ class DigDigEnv(gym.Env):
         # self.agent_pos = np.clip(self.agent_pos, 0, self.grid_size)
 
         # Are we at the left of the grid?
-        done = text.__contains__("You were destroyed by:") or text.__contains__("press enter to continue")
+        done = text.__contains__("You were destroyed by:") or text.__contains__("press enter to continue") or \
+                text.__contains__("This digger") or text.__contains__("is called...")
         # Null reward everywhere except when reaching the goal (left of the grid)
         reward = time.time() - self.start_time
 
@@ -85,4 +86,5 @@ class DigDigEnv(gym.Env):
         plt.pause(0.001)
 
     def close(self):
+        print("sunt in close")
         pass
